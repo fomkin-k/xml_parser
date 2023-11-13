@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML_Parser</title>
+</head>
+<body>
+    <p><b>Выберите XML файл:</b></p>
+    <form enctype="multipart/form-data" method="post">
+        <p><input type="file" name="xml_file">
+        <input type="submit" value="Отправить"></p>
+    </form> 
+
+    {% if loaded is defined %}
+            <a class="btn" href="{{ path('get_file_content') }}" role="button">
+                Показать содержимое файла
+            </a>
+    {% endif %}
+
+</body>
+</html>
