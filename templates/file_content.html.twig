@@ -1,16 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XML_Parser</title>
-</head>
-<body>
+{% extends 'base.html.twig' %}
 
-    <p><b>Содержимое файла:</b></p>
-    <p><textarea name="content">{{file_content}}</textarea></p>
-    <a class="btn" href="{{ path('get_file') }}" role="button">
+{% block title %}Hello ElementController!{% endblock %}
+
+{% block body %}
+    {# Уведомление об ошибках #}
+    {% for message in app.flashes('notification') %}
+        <div class="alert alert-warning alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    {% endfor %}
+
+    <h1>Содержимое файла:</h1>
+    
+    {% for element in elements %}
+        <div class="xmlelement" style="display:inline-block">
+            <h5>
+            {{ element.code }}
+            &nbsp
+            {{ element.content }}
+            <a class="btn btn-primary btn-sm" href="{{ path('delete_element', {
+              code: element.code,
+            }) }}" role="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                </svg>
+            </a>
+            </h5>
+        </div>
+        <br>
+    {% endfor %}
+    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" href="{{ path('create_element') }}" role="button">
+        Добавить новый элемент
+    </a>
+    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{{ path('create_element') }}" role="button">
+        Редактировать элемент
+    </a>
+    <a class="btn btn-primary" href="{{ path('make_xml') }}" role="button">
+        Сформировать новый XML документ
+    </a>
+    <a class="btn btn-primary" href="{{ path('get_file') }}" role="button">
         Вернуться
     </a>
-</body>
-</html>
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Редактировать элемент</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ form_start(edit_form) }}
+              <div class="row">
+                  <div class="col">
+                    {{ form_row(edit_form.code) }}
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                    {{ form_row(edit_form.content) }}
+                  </div>
+              </div>
+          {{ form_end(edit_form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Создать новый элемент</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ form_start(create_form) }}
+              <div class="row">
+                  <div class="col">
+                    {{ form_row(create_form.code) }}
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                    {{ form_row(create_form.content) }}
+                  </div>
+              </div>
+          {{ form_end(create_form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

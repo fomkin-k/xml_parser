@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XML_Parser</title>
-</head>
-<body>
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ElementController!{% endblock %}
+
+{% block body %}
     <p><b>Выберите XML файл:</b></p>
     <form enctype="multipart/form-data" method="post">
         <p><input type="file" name="xml_file">
@@ -18,5 +15,4 @@
             </a>
     {% endif %}
 
-</body>
-</html>
+{% endblock %}

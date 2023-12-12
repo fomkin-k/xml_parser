@@ -21,27 +21,37 @@ class XMLElementRepository extends ServiceEntityRepository
         parent::__construct($registry, XMLElement::class);
     }
 
-   public function findElementsById($elem_id): array
+   public function findElementsByParentCode($parent_code): array
    {
        return $this->createQueryBuilder('x')
-           ->andWhere('x.element_id = :val')
-           ->setParameter('val', $elem_id)
-           ->orderBy('x.element_id', 'ASC')
+           ->andWhere('x.parent_code = :val')
+           ->setParameter('val', $parent_code)
+           ->orderBy('x.code', 'ASC')
            ->getQuery()
            ->getResult()
        ;
    }
 
-   public function findElementsByParentId($parent_id): array
+    public function findOneByCode($code): ?XMLElement
    {
        return $this->createQueryBuilder('x')
-           ->andWhere('x.parent_id = :val')
-           ->setParameter('val', $parent_id)
-           ->orderBy('x.parent_id', 'ASC')
+           ->andWhere('x.code = :val')
+           ->setParameter('val', $code)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
+   public function findAllSorted(): array
+   {
+       return $this->createQueryBuilder('x')
+           ->orderBy('x.code', 'ASC')
            ->getQuery()
            ->getResult()
        ;
    }
+
+
 
 //    /**
 //     * @return XMLElement[] Returns an array of XMLElement objects
